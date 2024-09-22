@@ -28,6 +28,12 @@ export type LoginUserRequest = {
     password: string;
 }
 
+export type LoginUserResponse = {
+    username: string;
+    name: string;
+    token: string;
+}
+
 export function toUserResponse(user: User): UserResponse {
     return {
         name: user.name,

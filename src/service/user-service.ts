@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../error/response-error";
-import { createUserRequest, LoginUserRequest, toUserResponse, UserResponse } from "../model/user-model";
+import { createUserRequest, LoginUserRequest, LoginUserResponse, toUserResponse, UserResponse } from "../model/user-model";
 import { UserValidation } from "../validation/user-validation";
 import { Validation } from "../validation/validation";
 import bcrypt from "bcrypt";
@@ -62,6 +62,12 @@ export class userService {
         response.token = token.token!;
 
         return response;
+    }
+
+    static async get(user: LoginUserResponse): Promise<LoginUserResponse> {
+
+        return user;
+
     }
 
 }

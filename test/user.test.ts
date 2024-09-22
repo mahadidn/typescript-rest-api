@@ -96,3 +96,38 @@ describe('POST /api/users/login', () => {
     });
 
 });
+
+describe('GET /api/users/current', () => {
+    beforeEach(async () => {
+        await UserTest.create();
+    });
+
+    afterEach(async () => {
+        await UserTest.delete();
+        
+    });
+
+    it('should be able to get user', async () => {
+        const response = await supertest(web)
+                        .get("/api/users/current")
+                        .set("Authorization", "test");
+
+        console.info(response.body);
+        expect(response.status).toBe(200);
+        expect(response.body.data.username).toBe("mahadi");
+        expect(response.body.data.name).toBe("Mahadi Dwi Nugraha");
+
+    });
+
+    it('should reject get user if token is invalid', async () => {
+        const response = await supertest(web)
+                        .get("/api/users/current")
+                        .set("Authorization", "salah");
+
+        console.info(response.body);
+        expect(response.status).toBe(401);
+        expect(response.body.errors).toBeDefined();
+
+    });
+
+})
