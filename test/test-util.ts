@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Token, User } from "@prisma/client";
 import { prismaClient } from "../src/application/database";
 import bcrypt from "bcrypt";
 export class UserTest {
@@ -51,6 +51,16 @@ export class UserTest {
 
         return user;
 
+    }
+
+    static async getToken(){
+        const token = await prismaClient.token.findFirst({
+            where: {
+                tokenUsername: "mahadi"
+            }
+        });
+        
+        return token;
     }
 
 }

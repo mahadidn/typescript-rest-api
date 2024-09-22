@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../error/response-error";
 import { createUserRequest, LoginUserRequest, LoginUserResponse, toUserResponse, UpdateUserRequest, UpdateUserResponse, UserResponse } from "../model/user-model";
@@ -95,6 +94,17 @@ export class userService {
 
         return toUserResponse(result); 
 
+
+    }
+
+    static async logout(token: string): Promise<string>{
+        const result = await prismaClient.token.delete({
+            where: {
+                token: token
+            }
+        });
+
+        return "OK";
 
     }
 
