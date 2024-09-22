@@ -15,7 +15,7 @@ export const errorMiddleware = async (error: Error, req: Request, res: Response,
         });
     }else {
         res.status(500).json({
-            errors: "Terjadi Kesalahan"
+            errors: error.message    
         });
     }
 

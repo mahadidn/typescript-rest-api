@@ -1,6 +1,7 @@
+import { User } from "@prisma/client";
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../error/response-error";
-import { createUserRequest, LoginUserRequest, LoginUserResponse, toUserResponse, UserResponse } from "../model/user-model";
+import { createUserRequest, LoginUserRequest, LoginUserResponse, toUserResponse, UpdateUserRequest, UpdateUserResponse, UserResponse } from "../model/user-model";
 import { UserValidation } from "../validation/user-validation";
 import { Validation } from "../validation/validation";
 import bcrypt from "bcrypt";
@@ -67,6 +68,33 @@ export class userService {
     static async get(user: LoginUserResponse): Promise<LoginUserResponse> {
 
         return user;
+
+    }
+
+    static async update(user: UpdateUserResponse, request: UpdateUserRequest): Promise<UserResponse> {
+        const updateRequest = Validation.validate(UserValidation.UPDATE, request);
+        
+        const dataUser: UpdateUserRequest = {
+
+        };
+
+        if(updateRequest.name){
+            dataUser!.name = updateRequest.name;
+        }
+
+        if(updateRequest.password){
+            dataUser!.password = await bcrypt.hash(updateRequest.password, 10);
+        }
+
+        const result = await prismaClient.user.update({
+            where: {
+                username: user.username
+            },
+            data: dataUser!
+        });
+
+        return toUserResponse(result); 
+
 
     }
 

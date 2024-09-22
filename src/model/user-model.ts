@@ -34,6 +34,18 @@ export type LoginUserResponse = {
     token: string;
 }
 
+export type UpdateUserResponse = {
+    username: string;
+    name: string;
+    token: string;
+}
+
+export type UpdateUserRequest = {
+
+    name?: string;
+    password?: string;
+}
+
 export function toUserResponse(user: User): UserResponse {
     return {
         name: user.name,

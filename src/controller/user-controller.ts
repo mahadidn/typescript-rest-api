@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createUserRequest, LoginUserRequest, LoginUserResponse } from "../model/user-model";
+import { createUserRequest, LoginUserRequest, LoginUserResponse, UpdateUserRequest } from "../model/user-model";
 import { userService } from "../service/user-service";
 import { UserRequest } from "../type/user-request";
 
@@ -52,5 +52,20 @@ export class UserController {
             next(e);
         }
     }  
+
+    static async update(req: UserRequest, res: Response, next: NextFunction){
+        try {
+
+            const request: UpdateUserRequest = req.body as UpdateUserRequest;
+            const response = await userService.update(req.user!, request);
+            
+            res.status(200).json({
+                data: response
+            });
+
+        }catch(e){
+            next(e);
+        }
+    }
 
 }
